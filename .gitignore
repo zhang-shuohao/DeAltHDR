@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+
+# Experiments
+experiments/
+trained_models/
+tb_logger/
+outputs/
+datasets/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
