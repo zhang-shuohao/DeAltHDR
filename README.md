@@ -14,7 +14,7 @@ High dynamic range (HDR) video can be reconstructed from low dynamic range (LDR)
 
 ## 🔍 Method Overview
 
-![Method Overview](../assets/overview.png)
+![Method Overview](./assets/overview.png)
 
 Overview of our framework. Figure (a) illustrates the processing of the t-th frame in DeAltHDR, where the model uses the other 2 neighboring frames for assistance. Taking the alignment from the (t-1)-th frame to the t-th frame as an example, figure (b) shows how **Flow-Guided Mask Attention Alignment (FGMA)** works.
 
