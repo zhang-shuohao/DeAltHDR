@@ -12,13 +12,6 @@ High dynamic range (HDR) video can be reconstructed from low dynamic range (LDR)
 
 ---
 
-## 🔥 News
-
-- **2026.xx.xx**: Code and pre-trained models are released.
-- **2026.01.xx**: DeAltHDR is accepted to **ICLR 2026** 🎉
-
----
-
 ## 🔍 Method Overview
 
 <picture>
