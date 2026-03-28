@@ -26,7 +26,7 @@ Overview of our framework. Figure (a) illustrates the processing of the t-th fra
 
 ```bash
 # clone this repo
-git clone https://github.com/[TODO: your repo link].git
+git clone [https://github.com/[TODO: your repo link].git](https://github.com/zhang-shuohao/DeAltHDR.git)
 cd DeAltHDR
 
 # create environment
