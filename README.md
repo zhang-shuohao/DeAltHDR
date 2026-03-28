@@ -46,7 +46,7 @@ pip install -e .
 
 ---
 
-## 📦 Pre-trained Models
+## 📦 Pre-trained Models (TODO)
 
 | Model | Task | Download |
 |---|---|---|
@@ -56,7 +56,7 @@ Download the pre-trained model and place it under the `pretrained/` folder.
 
 ---
 
-## 🗂️ Dataset Preparation
+## 🗂️ Dataset Preparation (TODO)
 
 The dataset should be organized as follows:
 
