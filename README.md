@@ -12,6 +12,13 @@ High dynamic range (HDR) video can be reconstructed from low dynamic range (LDR)
 
 ---
 
+## 🔥 News
+
+- **2026.xx.xx**: Code and pre-trained models are released.
+- **2026.01.xx**: DeAltHDR is accepted to **ICLR 2026** 🎉
+
+---
+
 ## 🔍 Method Overview
 
 <picture>
@@ -25,13 +32,48 @@ Overview of our framework. Figure (a) illustrates the processing of the t-th fra
 ## ⚙️ Installation
 
 ```bash
+# clone this repo
+git clone https://github.com/[TODO: your repo link].git
+cd DeAltHDR
+
+# create environment
+conda create -n DeAltHDR python=3.9
+conda activate DeAltHDR
+
 pip install -r requirements.txt
 pip install -e .
 ```
 
 ---
 
-## 🏋️ Training
+## 📦 Pre-trained Models
+
+| Model | Task | Download |
+|---|---|---|
+| DeAltHDR | HDR Video Reconstruction | [TODO] |
+
+Download the pre-trained model and place it under the `pretrained/` folder.
+
+---
+
+## 🗂️ Dataset Preparation
+
+The dataset should be organized as follows:
+
+```
+datasets/
+└── your_dataset/
+    ├── train/
+    │   ├── gt/
+    │   │   ├── video_1/
+    │   │   └── ...
+    │   └── blur/
+    │       ├── video_1/
+    │       └── ...
+    └── test/
+        ├── gt/
+        └── blur/
+```
 
 Edit `options/DeAltHDR.yml` to set your dataset path:
 
@@ -39,10 +81,19 @@ Edit `options/DeAltHDR.yml` to set your dataset path:
 dir_data: ['/path/to/your/dataset/']
 ```
 
-Then run:
+---
+
+## 🏋️ Training
 
 ```bash
 python train_dealthdr.py -opt options/DeAltHDR.yml --launcher none
+```
+
+For distributed training:
+
+```bash
+python -m torch.distributed.launch --nproc_per_node=8 --master_port=8080 \
+    train_dealthdr.py -opt options/DeAltHDR.yml --launcher pytorch
 ```
 
 ---
