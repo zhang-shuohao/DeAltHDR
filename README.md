@@ -55,6 +55,12 @@ python test_dealthdr.py -opt options/DeAltHDR.yml
 
 ---
 
+## 🙏 Acknowledgements
+
+This project is built upon the codebase of [Turtle](https://github.com/Ascend-Research/Turtle) (NeurIPS 2024). We appreciate their great work!
+
+---
+
 ## 📖 Citation
 
 If you find this work useful, please cite our paper:
