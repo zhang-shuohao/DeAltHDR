@@ -106,8 +106,8 @@ class DeAltHDRModel(BaseModel):
     # method to feed the data to the model.
     def feed_data(self, data):
         lq, gt, _, _ = data
-        self.lq = lq.to(self.device).half()
-        self.gt = gt.to(self.device)
+        self.lq = lq.to(self.device).float()
+        self.gt = gt.to(self.device).float()
 
     def get_sensitivity_for_sample(self, mode):
         """
@@ -182,14 +182,11 @@ class DeAltHDRModel(BaseModel):
                 # Stack outputs back to batch
                 out_g = torch.cat(batch_outputs, dim=0)
                 
-                # Compute losses (tone-mapped domain as per paper)
-                # Apply mu-law tone mapping
-                mu = 5000.0
-                out_g_tonemapped = torch.log(1 + mu * out_g) / torch.log(torch.tensor(1 + mu))
-                target_tonemapped = torch.log(1 + mu * target_g_images) / torch.log(torch.tensor(1 + mu))
-                
-                l_pix = self.loss(out_g_tonemapped, target_tonemapped)
-                vgg_pix = self.vggloss(out_g_tonemapped, target_tonemapped)
+                # GT is already mu-law tone-mapped in [0,1] by the dataset.
+                # Clamp output to [0,1] and compute L1 directly.
+                out_g_clamped = out_g.clamp(0.0, 1.0)
+                l_pix = self.loss(out_g_clamped, target_g_images)
+                vgg_pix = self.vggloss(out_g_clamped, target_g_images)
                 
                 loss_dict['l_pix'] = loss_dict['l_pix'] + l_pix + 0.5 * vgg_pix
 
@@ -200,6 +197,7 @@ class DeAltHDRModel(BaseModel):
 
         self.scaler.scale(l_total).backward()
         self.scaler.unscale_(self.optimizer_g)
+        torch.nn.utils.clip_grad_norm_(self.net_g.parameters(), max_norm=1.0)
         self.scaler.step(self.optimizer_g)
         self.scaler.update()
         self.log_dict = self.reduce_loss_dict(loss_dict)
@@ -248,7 +246,8 @@ class DeAltHDRModel(BaseModel):
                     training_mode='mixed',
                     sensitivity=sensitivity
                 )
-                
+                # Match training: tensor2img uses min_max (0,1); unclamped outputs saturate to white.
+                out_g = out_g.clamp(0.0, 1.0)
                 self.outputs_list.append(out_g)
                 self.gt_lists.append(target_g_images)
                 self.lq_lists.append(self.lq[:, j,:, :, :])
